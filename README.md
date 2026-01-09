@@ -22,28 +22,7 @@ Self-aligned reward (**SAR**) is a generic, universally applicable self-guided s
 
 <img src="figures/compare_rewards.png" style="zoom: 33%;" />
 
-Specifically, **SAR** compares the perpexity of a model rollout given and not given the question as context:
-
-![equation](https://latex.codecogs.com/png.image?\dpi{110}\begin{equation}\small&space;R_{\text{SA-PPO/GRPO}}(q,a_i,gt)=R_{\text{VR}}&plus;\alpha&space;R_{\text{SA}},\quad&space;R_{\text{SA}}=\operatorname{clip}\!\left(\frac{\operatorname{ppl}(a_i)-\operatorname{ppl}(a_i\mid&space;q)}{\operatorname{ppl}(a_i)},-1,1\right)\end{equation})
-
-$$
-\begin{equation}
-\small
-\operatorname{ppl}(a)
-=
-e^{-\frac{1}{|a|}
-\sum_{j=1}^{|a|}
-\log P(a_j \mid a_{1\ldots j-1})},
-\quad
-\operatorname{ppl}(a \mid q)
-=
-e^{-\frac{1}{|a|}
-\sum_{j=1}^{|a|}
-\log P(a_j \mid q, a_{1\ldots j-1})}.
-\end{equation}
-$$
-
-As a result, answers that are closely tailored to the question will receive a higher SAR score.
+Specifically, **SAR** compares the perpexity of a model rollout given and not given the question as context. As a result, answers that are closely tailored to the question will receive a higher SAR score. Please refer to the paper for additional details.
 
 
 ## Repo Usage
@@ -92,4 +71,5 @@ If you find this repo or the paper useful, please cite:
 
 
 Reach out to [Peixuan Han](mailto:ph16@illinois.edu) for any questions.
+
 
