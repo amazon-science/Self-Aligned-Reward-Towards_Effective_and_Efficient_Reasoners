@@ -24,7 +24,7 @@ Self-aligned reward (**SAR**) is a generic, universally applicable self-guided s
 
 Specifically, **SAR** compares the perpexity of a model rollout given and not given the question as context:
 
-![equation](https://latex.codecogs.com/svg.image?\begin{equation}\small&space;R_{\text{SA-PPO/GRPO}}(q,a_i,gt)=R_{\text{VR}}&plus;\alpha&space;R_{\text{SA}},\quad&space;R_{\text{SA}}=\operatorname{clip}\!\left(\frac{\operatorname{ppl}(a_i)-\operatorname{ppl}(a_i\mid&space;q)}{\operatorname{ppl}(a_i)},-1,1\right)\end{equation})
+![equation](https://latex.codecogs.com/png.image?\dpi{110}\begin{equation}\small&space;R_{\text{SA-PPO/GRPO}}(q,a_i,gt)=R_{\text{VR}}&plus;\alpha&space;R_{\text{SA}},\quad&space;R_{\text{SA}}=\operatorname{clip}\!\left(\frac{\operatorname{ppl}(a_i)-\operatorname{ppl}(a_i\mid&space;q)}{\operatorname{ppl}(a_i)},-1,1\right)\end{equation})
 
 $$
 \begin{equation}
@@ -92,3 +92,4 @@ If you find this repo or the paper useful, please cite:
 
 
 Reach out to [Peixuan Han](mailto:ph16@illinois.edu) for any questions.
+
