@@ -60,7 +60,7 @@ fastapi==0.115.12
 fastapi-cli==0.0.7
 fasteners==0.19
 fastrlock==0.8.3
-filelock==3.18.0
+filelock==3.20.3
 flash_attn
 flashinfer-python
 Flask==3.1.1
