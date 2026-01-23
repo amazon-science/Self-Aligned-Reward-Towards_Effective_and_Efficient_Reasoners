@@ -30,8 +30,8 @@ exp_name="test"
 python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=grpo \
     algorithm.norm_adv_by_std_in_grpo=False \
-    data.train_files=[data/math_combined_all/train.parquet] \
-    data.val_files=[data/math_combined_all/test.parquet] \
+    data.train_files=[data/math_combined_all_all/train.parquet] \
+    data.val_files=[data/math_combined_all_all/test.parquet] \
     data.train_batch_size=${sampling_bsz} \
     data.max_prompt_length=1024 \
     data.max_response_length=4096 \
@@ -72,10 +72,10 @@ python3 -m verl.trainer.main_ppo \
     trainer.val_before_train=False \
     trainer.val_only=False \
     trainer.default_local_dir=${SAVE_DIR}/${model_name}/${exp_name} \
-    trainer.flexible_format_warmup=1 \
     trainer.reward_types=["base","ppl_qa"] \
     trainer.reward_factors=[0.0,1] \
     trainer.total_epochs=100
+
 
 
 bash scripts/auto_validate.sh ${SAVE_DIR}/${model_name}/${exp_name}/global_step_${step}/actor_hf ${N_GPUS}
