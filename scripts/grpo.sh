@@ -61,7 +61,7 @@ python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.rollout.n=6 \
     algorithm.use_kl_in_reward=False \
     trainer.critic_warmup=0 \
-    trainer.logger=['console','wandb'] \
+    trainer.logger=['console'] \
     trainer.total_training_steps=${step} \
     trainer.project_name=math-reasoning-rl \
     trainer.experiment_name=${model_name}-${exp_name} \
@@ -79,3 +79,4 @@ python3 -m verl.trainer.main_ppo \
 
 
 bash scripts/auto_validate.sh ${SAVE_DIR}/${model_name}/${exp_name}/global_step_${step}/actor_hf ${N_GPUS}
+
