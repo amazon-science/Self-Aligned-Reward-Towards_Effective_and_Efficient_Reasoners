@@ -188,7 +188,7 @@ prometheus_client==0.22.0
 prompt_toolkit
 propcache==0.3.1
 proto-plus==1.26.1
-protobuf==4.25.7
+protobuf==7.34.0rc1
 psutil==7.0.0
 ptyprocess
 PuLP==3.2.1
