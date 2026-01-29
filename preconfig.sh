@@ -18,12 +18,19 @@ python examples/data_preprocess/merge_datasets.py \
     --output-dir data/math_combined_all \
     --difficulty all
 
-# Model download - Qwen-4B-Base for example
+# Model download - Qwen-4B-Base and Qwen-1.7B-Base for example
 mkdir llms
 cd llms
 git lfs install
 git clone https://huggingface.co/Qwen/Qwen3-4B-Base
+git clone https://huggingface.co/Qwen/Qwen3-1.7B-Base
 # Return to main directory
 cd ../
-# Run a sample training script
-./scripts/grpo.sh
+# Run sample training script
+./scripts/SA-grpo-1.7B.sh
+# The checkpoints from the above runs are saved under the checkpoints directory
+# To evaluate use the below command - modify N_GPUs and SAVE_PATH accordingly
+# (modify the save path to the required actor_hf folder within checkpoints)
+N_GPUS=8
+SAVE_PATH="checkpoints/Qwen3-1.7B-Base/SA-grpo-1.7B/global_step_500/actor_hf"
+bash scripts/auto_validate.sh ${SAVE_PATH} ${N_GPUS}

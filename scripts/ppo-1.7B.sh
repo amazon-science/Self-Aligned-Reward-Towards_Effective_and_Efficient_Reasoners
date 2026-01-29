@@ -24,7 +24,7 @@ val_batch_size=ERR
 forward_bsz=16
 step=500
 
-exp_name="SA-ppo-1.7B"
+exp_name="ppo-1.7B"
 
 
 python3 -m verl.trainer.main_ppo \
@@ -72,12 +72,12 @@ python3 -m verl.trainer.main_ppo \
     trainer.n_gpus_per_node=${N_GPUS} \
     trainer.nnodes=1 \
     trainer.save_freq=100 \
-    trainer.test_freq=500 \
+    trainer.test_freq=50 \
     trainer.val_before_train=False \
     trainer.val_only=False \
     trainer.default_local_dir=${SAVE_DIR}/${model_name}/${exp_name} \
-    trainer.reward_types=["base","ppl_qa"] \
-    trainer.reward_factors=[1,0.2] \
+    trainer.reward_types=["base"] \
+    trainer.reward_factors=[1] \
     trainer.total_epochs=100
 
 

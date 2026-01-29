@@ -1,4 +1,4 @@
-export CUDA_VISIBLE_DEVICES=6,7
+export CUDA_VISIBLE_DEVICES=4,5
 export RAY_DEDUP_LOGS=0
 export HYDRA_FULL_ERROR=1
 # export NCCL_P2P_DISABLE=1 # Uncomment this line if you encounter deadlock issues
@@ -24,11 +24,12 @@ val_batch_size=ERR
 forward_bsz=16
 step=500
 
-exp_name="SA-ppo-1.7B"
+exp_name="grpo-1.7B"
 
 
 python3 -m verl.trainer.main_ppo \
-    algorithm.adv_estimator=gae \
+    algorithm.adv_estimator=grpo \
+    algorithm.norm_adv_by_std_in_grpo=False \
     data.train_files=[data/math_combined_all_all/train.parquet] \
     data.val_files=[data/math_combined_all_all/test.parquet] \
     data.train_batch_size=${sampling_bsz} \
@@ -40,6 +41,7 @@ python3 -m verl.trainer.main_ppo \
     data.truncation='left' \
     actor_rollout_ref.model.path=${model_path} \
     actor_rollout_ref.actor.optim.lr=1e-6 \
+    actor_rollout_ref.actor.loss_agg_mode=seq-mean-token-sum-norm \
     actor_rollout_ref.actor.optim.total_training_steps=${step} \
     actor_rollout_ref.model.use_remove_padding=True \
     actor_rollout_ref.model.enable_gradient_checkpointing=True \
@@ -48,21 +50,15 @@ python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.actor.fsdp_config.param_offload=False \
     actor_rollout_ref.actor.fsdp_config.optimizer_offload=False \
     actor_rollout_ref.actor.fsdp_config.offload_policy=False \
-    actor_rollout_ref.actor.use_kl_loss=False \
+    actor_rollout_ref.actor.use_kl_loss=True \
+    actor_rollout_ref.actor.kl_loss_coef=0.001 \
+    actor_rollout_ref.actor.kl_loss_type=low_var_kl \
     actor_rollout_ref.rollout.log_prob_micro_batch_size=${forward_bsz} \
     actor_rollout_ref.ref.log_prob_micro_batch_size=${forward_bsz} \
-    actor_rollout_ref.rollout.tensor_model_parallel_size=${N_GPUS} \
+    actor_rollout_ref.rollout.tensor_model_parallel_size=1 \
     actor_rollout_ref.rollout.name=vllm \
     actor_rollout_ref.rollout.gpu_memory_utilization=0.65 \
-    critic.optim.lr=2e-6 \
-    critic.optim.total_training_steps=${step} \
-    critic.model.use_remove_padding=True \
-    critic.model.path=${model_path} \
-    critic.model.enable_gradient_checkpointing=True \
-    critic.ppo_mini_batch_size=$gradient_bsz \
-    critic.ppo_micro_batch_size=$forward_bsz \
-    critic.model.fsdp_config.param_offload=False \
-    critic.model.fsdp_config.optimizer_offload=False \
+    actor_rollout_ref.rollout.n=6 \
     algorithm.use_kl_in_reward=False \
     trainer.critic_warmup=0 \
     trainer.logger=['console'] \
@@ -76,8 +72,8 @@ python3 -m verl.trainer.main_ppo \
     trainer.val_before_train=False \
     trainer.val_only=False \
     trainer.default_local_dir=${SAVE_DIR}/${model_name}/${exp_name} \
-    trainer.reward_types=["base","ppl_qa"] \
-    trainer.reward_factors=[1,0.2] \
+    trainer.reward_types=["base"] \
+    trainer.reward_factors=[1] \
     trainer.total_epochs=100
 
 
